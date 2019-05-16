@@ -18,7 +18,7 @@ def writeOutput(output_file_name, unigramsDictionary, bigramsDictionary, trigram
         for bigram in bigramsDictionary:
             for bigramm in bigramsDictionary[bigram]:
                 if bigramm != "TOTAL":
-                    output.write("\n2-gram: " + str(bigram) + " " + str(bigramm) + ", Count: " + str(bigramsDictionary[bigram][bigramm]) + ", Probability: " + str(bigramsDictionary[bigram][bigramm]/len(bigramsDictionary[bigram]))+ ", Log-Probability: "+ str(math.log10(bigramsDictionary[bigram][bigramm]/len(bigramsDictionary[bigram]))))
+                    output.write("\n2-gram: " + str(bigram) + " " + str(bigramm) + ", Count: " + str(bigramsDictionary[bigram][bigramm]) + ", Probability: " + str(bigramsDictionary[bigram][bigramm]/unigramsDictionary[bigram])+ ", Log-Probability: "+ str(math.log10(bigramsDictionary[bigram][bigramm]/len(bigramsDictionary[bigram]))))
 
         output.write("\n\n3-grams:\n")
 
@@ -27,7 +27,7 @@ def writeOutput(output_file_name, unigramsDictionary, bigramsDictionary, trigram
                 if trigramm != "TOTAL":
                     for trigrammm in trigramsDictionary[trigram][trigramm]:
                         if trigrammm != "TOTAL":
-                            output.write("\n3-gram: " + str(trigram) + " " + str(trigramm) + " " + str(trigrammm)+ ", Count: " + str(trigramsDictionary[trigram][trigramm][trigrammm]) + ", Probability: " + str(trigramsDictionary[trigram][trigramm][trigrammm] / trigramsd[0])+ ", Log-Probability: "+str(math.log10(trigramsDictionary[trigram][trigramm][trigrammm] / trigramsd[0])))
+                            output.write("\n3-gram: " + str(trigram) + " " + str(trigramm) + " " + str(trigrammm)+ ", Count: " + str(trigramsDictionary[trigram][trigramm][trigrammm]) + ", Probability: " + str(trigramsDictionary[trigram][trigramm][trigrammm] / bigramsDictionary[trigram][trigramm]) + ", Log-Probability: "+str(math.log10(trigramsDictionary[trigram][trigramm][trigrammm] / trigramsd[0])))
 
         output.write("\n\ntop 10 words: \n\n")
         unigramsList = [(k, v) for k, v in unigramsDictionary.items()]
@@ -40,13 +40,13 @@ def writeOutput(output_file_name, unigramsDictionary, bigramsDictionary, trigram
             output.write("\n")
         output.write("\nbigram sentences: \n")
         for i in range(0, 5):
-            output.write(generate_from_ngram.generateBigramSentence(bigramsDictionary, (random.randint(3, 10))))
-            print(generate_from_ngram.generateBigramSentence(bigramsDictionary, (random.randint(3, 10))))
+            output.write(generate_from_ngram.generateBigramSentence(bigramsDictionary, unigramsDictionary, (random.randint(3, 10))))
+            print(generate_from_ngram.generateBigramSentence(bigramsDictionary, unigramsDictionary, (random.randint(3, 10))))
             output.write("\n")
         output.write("\ntrigram sentences: \n")
         for i in range(0, 5):
-            output.write(generate_from_ngram.generateTrigramSentence(trigramsDictionary, bigramsDictionary, (random.randint(3, 10))))
-            print(generate_from_ngram.generateTrigramSentence(trigramsDictionary, bigramsDictionary, (random.randint(3, 10))))
+            output.write(generate_from_ngram.generateTrigramSentence(trigramsDictionary, bigramsDictionary, unigramsDictionary, (random.randint(3, 10))))
+            print(generate_from_ngram.generateTrigramSentence(trigramsDictionary, bigramsDictionary, unigramsDictionary, (random.randint(3, 10))))
             output.write("\n")
 
 
